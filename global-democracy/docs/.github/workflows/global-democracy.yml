@@ -1,0 +1,19 @@
+name: Deploy Global Democracy Hub
+on:
+  push:
+    paths:
+      - 'global-democracy/**'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: 3.x
+    - run: pip install mkdocs-material
+    - run: mkdocs build -f global-democracy/mkdocs.yml --site-dir global-democracy-site
+    - uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./global-democracy-site
